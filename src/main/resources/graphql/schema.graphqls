@@ -1,0 +1,49 @@
+# GraphQL Schema Definition
+
+# Task Type Definition
+type Task {
+    taskId: ID!
+    taskName: String!
+    description: String
+    status: String!
+    assignedTo: String
+    dueDate: String
+}
+
+# Queries
+type Query {
+    # Retrieve all tasks
+    tasks: [Task!]!
+}
+
+# Mutations
+type Mutation {
+    # Create a new task
+    createTask(taskName: String!, description: String, dueDate: String!): TaskResponse!
+
+    # Update an existing task's status
+    updateTask(taskId: ID!, status: String!): TaskResponse!
+
+    # Delete a task by taskId
+    deleteTask(taskId: ID!): DeleteResponse!
+
+    # Assign a task to a user
+    assignTask(taskId: ID!, userId: String!): TaskAssignmentResponse!
+}
+
+# Task Response after creation or update
+type TaskResponse {
+    taskId: ID!
+    status: String!
+}
+
+# Response for task deletion
+type DeleteResponse {
+    success: Boolean!
+}
+
+# Response for task assignment
+type TaskAssignmentResponse {
+    taskId: ID!
+    assignedTo: String!
+}
