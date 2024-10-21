@@ -50,7 +50,7 @@ jobs:
 
       # Run tests using Docker Compose
       - name: Run tests
-        run: docker-compose up test --abort-on-container-exit
+        run: docker-compose up test
 
       # Run application (optional)
 #      - name: Run application
