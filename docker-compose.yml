@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "8081:8081"
+    environment:
+      - APP_MODE=app # Runs the application
+    container_name: task-management-app
+
+  test:
+    build: .
+    environment:
+      - APP_MODE=test # Runs the tests
+    container_name: task-management-test

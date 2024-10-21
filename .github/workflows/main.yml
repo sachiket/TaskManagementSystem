@@ -13,32 +13,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Checkout code from repository
       - name: Checkout code
-        uses: actions/checkout@v4 # Upgraded to v4, which supports Node.js 20
-
-      # Set up JDK 17
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-
-      # Set up Gradle
-      - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
-
-      - name: Execute Gradle build
-        run: |
-          chmod +x ./gradlew
-          ./gradlew bootJar
+        uses: actions/checkout@v4
 
       # Set up Docker
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3 # Upgraded to v3 for Node.js 20 support
+        uses: docker/setup-buildx-action@v3
 
+      # Build Docker image
       - name: Build Docker image
-        run: docker build -t sachiket/task-management-system .
+        run: docker-compose build
 
-      # Run the tests inside Docker container
+      # Run tests using Docker Compose
       - name: Run tests
-        run: docker run sachiket/task-management-system ./gradlew test --no-daemon
+        run: docker-compose up test --abort-on-container-exit
+
+      # Run application (optional, if you want to check if the app runs after the tests)
+#      - name: Run application
+#        run: docker-compose up -d app
