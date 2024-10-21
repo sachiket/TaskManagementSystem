@@ -14,11 +14,11 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4 # Upgraded to v4, which supports Node.js 20
 
       # Set up Docker
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3 # Upgraded to v3 for Node.js 20 support
 
       - name: Build Docker image
         run: docker build -t sachiket/task-management-system .
