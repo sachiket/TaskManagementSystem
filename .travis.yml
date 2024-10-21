@@ -4,8 +4,8 @@ services:
 
 before_install:
   # Build the Docker image for the Task Management System
-  - docker build -t sachiket/taskManagementSystem .
+  - docker build -t sachiket/task-management-system .
 
 script:
   # Run the tests inside the Docker container
-  - docker run sachiket/taskManagementSystem ./gradlew test --no-daemon
+  - docker run sachiket/task-management-system ./gradlew test --no-daemon
