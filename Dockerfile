@@ -8,6 +8,9 @@ WORKDIR /app
 COPY gradlew .
 COPY gradle ./gradle
 
+# Ensure gradlew has executable permissions
+RUN chmod +x ./gradlew
+
 # Copy the rest of the project files
 COPY . .
 
