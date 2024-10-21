@@ -1,0 +1,11 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  # Build the Docker image for the Task Management System
+  - docker build -t sachiket/taskManagementSystem .
+
+script:
+  # Run the tests inside the Docker container
+  - docker run sachiket/taskManagementSystem ./gradlew test --no-daemon
