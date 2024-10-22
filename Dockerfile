@@ -4,18 +4,23 @@ FROM openjdk:17-jdk-slim
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy the Gradle wrapper files and permissions
+# Copy the Gradle wrapper files and build configuration files first (for caching dependencies)
 COPY gradlew .
 COPY gradle ./gradle
+COPY build.gradle .
+COPY settings.gradle .
 
 # Ensure gradlew has executable permissions
 RUN chmod +x ./gradlew
 
-# Copy the rest of the project files
+# Cache dependencies by running a dummy build
+RUN ./gradlew build --no-daemon --parallel --stacktrace || return 0
+
+# Now copy the rest of the project files
 COPY . .
 
-# Build the project using Gradle
-RUN ./gradlew build --no-daemon
+# Build the project using Gradle with parallel tasks
+RUN ./gradlew build --no-daemon --parallel --stacktrace
 
 # Expose the port on which the app will run
 EXPOSE 8081
