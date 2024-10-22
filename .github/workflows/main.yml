@@ -60,6 +60,7 @@ jobs:
           chmod +x ./gradlew
           ./gradlew test
 
+
   build-and-push:
     runs-on: ubuntu-latest
     environment: prod
