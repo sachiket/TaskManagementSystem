@@ -62,6 +62,7 @@ jobs:
 
   build-and-push:
     runs-on: ubuntu-latest
+    environment: prod
 #    needs: [build, test]
 
     steps:
@@ -71,23 +72,24 @@ jobs:
 
       # Step 2: Build Docker image
       - name: Build Docker image
-        run: docker build -t ${{ prod.DOCKER_USERNAME }}/task-management-app:latest .
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/task-management-app:latest .
 
       # Step 3: Log in to Docker Hub
       - name: Log in to Docker Hub
-        run: docker login -u ${{ prod.DOCKER_USERNAME }} -p ${{ prod.DOCKER_PASSWORD }}
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
       # Step 4: Push Docker image to Docker Hub
       - name: Push Docker image to Docker Hub
-        run: docker push ${{ prod.DOCKER_USERNAME }}/task-management-app:latest
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/task-management-app:latest
 
   deploy:
     runs-on: ubuntu-latest
+    environment: prod
     needs: [build, test, build-and-push]
     steps:
       - uses: actions/checkout@v4
-      - run: docker login -u ${{ secrets.prod.DOCKER_USERNAME }} -p ${{ secrets.prod.DOCKER_PASSWORD }}
-      - run: docker build -t ${{ secrets.prod.DOCKER_USERNAME }}/task-management-app:latest .
+      - run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - run: docker build -t ${{ secrets.DOCKER_USERNAME }}/task-management-app:latest .
 
       - name: Generate deployment package
         run: zip -r deploy.zip . -x '*.git*'
@@ -95,8 +97,8 @@ jobs:
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v22
         with:
-          aws_access_key: ${{ secrets.prod.AWS_ACCESS_KEY }}
-          aws_secret_key: ${{ secrets.prod.AWS_SECRET_KEY }}
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
           application_name: TaskManagementService
           environment_name: TaskManagementService-env
           existing_bucket_name: elasticbeanstalk-ap-south-1-216989125905
