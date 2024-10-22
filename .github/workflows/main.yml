@@ -136,7 +136,7 @@ jobs:
         uses: einaregilsson/beanstalk-deploy@v22
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
-          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+          aws_secret_key: ${{ secrets.AWS_SECRET }}
           application_name: TaskManagementService
           environment_name: TaskManagementService-env
           existing_bucket_name: elasticbeanstalk-ap-south-1-216989125905
