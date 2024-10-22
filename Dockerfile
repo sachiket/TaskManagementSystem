@@ -18,7 +18,7 @@ COPY . .
 RUN ./gradlew build --no-daemon
 
 # Expose the port on which the app will run
-EXPOSE 8081
+EXPOSE 80
 
 # Set an environment variable to control mode (app or test)
 ENV APP_MODE=app
