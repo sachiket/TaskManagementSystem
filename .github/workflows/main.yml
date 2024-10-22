@@ -90,7 +90,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     environment: prod
-    needs: [build, test, build-and-push]
+    needs: [build, test, docker-build-and-push]
 
     steps:
       - uses: actions/checkout@v4
