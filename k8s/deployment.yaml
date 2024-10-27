@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Deployment
+metadata:
+  name: task-management-service-deployment
+spec:
+  replicas: 1
+  selector:
+    component: web
+  template:
+    metadata:
+      labels:
+        component: web
+    spec:
+      containers:
+        - name: task-management-app
+          image: sachiket/task-management-app
+          ports:
+            - containerPort: 8081
